@@ -1,13 +1,8 @@
 import DBStorage from "../src/storage";
-import { IDatabaseSchema, TColumnName, TDatabaseStorage } from "./db.interface";
+import { IDatabaseQuery, TColumnName, TDatabaseStorage, TOrderByParam } from "./db.interface";
 import DatabaseStorage from "./db.storage";
 
-type TColumns = string[]
-type TCondition = {
-  [key: string]: any
-}
-
-class DatabaseQuery {
+class DatabaseQuery implements IDatabaseQuery {
   private _query: string;
   private _tableName: string;
   private _keys!: string[]
@@ -31,7 +26,7 @@ class DatabaseQuery {
     return this;
   }
 
-  select<T extends TColumnName>(...options: Array<keyof T>) {
+  select<T extends TColumnName>(...options: Array<keyof T>): this {
     let column = ''
     const matchedFields = this._keys.filter(e => options.indexOf(e) > -1).join(', ')
     column = column + matchedFields
@@ -40,7 +35,7 @@ class DatabaseQuery {
     return this;
   }
 
-  where<T extends TColumnName>(...options: Array<Partial<{[key in keyof T]: any}>>) {
+  where<T extends TColumnName>(...options: Array<Partial<{[key in keyof T]: any}>>): this {
     let condidition = ''
     const columns = options[0]
 
@@ -54,7 +49,7 @@ class DatabaseQuery {
     return this;
   }
 
-  groupBy<T extends TColumnName>(...options: Array<keyof T>) {
+  groupBy<T extends TColumnName>(...options: Array<keyof T>): this {
     let column = ''
     const matchedFields = this._keys.filter(e => options.indexOf(e) > -1).join(', ')
     column = column + matchedFields
@@ -63,7 +58,7 @@ class DatabaseQuery {
     return this;
   }
 
-  orderBy<T extends TColumnName>(...options: Array<Partial<{[key in keyof T]: 'ASC' | 'DESC'}>>) {
+  orderBy<T extends TColumnName>(...options: Array<Partial<{[key in keyof T]: TOrderByParam}>>): this {
     let condidition = ''
     const columns = options[0]
 
@@ -81,12 +76,11 @@ class DatabaseQuery {
     let condition = ''
     this._query = this._query + condition + ' ' + 'INNER JOIN' + ' ' + tableName + ' ON ' + this._tableName + '.' + columns.FK1.toString() + '=' + tableName + '.' + columns.FK2.toString()
  
-
     return this
 
   }
 
-  build() {
+  build(): string {
     return this._query;
   }
 }

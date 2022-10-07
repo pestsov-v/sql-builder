@@ -36,5 +36,16 @@ export interface IDatabaseSchema {
 }
 
 export type TDatabaseStorage = {schema: IDatabaseSchema} & {query: string}
-
 export type TColumnName = {[key: string]: any}
+export type TOrderByParam = 'ASC' | 'DESC'
+
+
+export interface IDatabaseQuery {
+  init(tableName: string): this
+  select<T extends TColumnName>(...options: Array<keyof T>): this
+  where<T extends TColumnName>(...options: Array<Partial<{[key in keyof T]: any}>>): this
+  groupBy<T extends TColumnName>(...options: Array<keyof T>): this
+  orderBy<T extends TColumnName>(...options: Array<Partial<{[key in keyof T]: TOrderByParam}>>): this
+  innerJoin<TB1 extends TColumnName, TB2 extends TColumnName>(tableName: string, columns: {FK1: keyof TB1, FK2: keyof TB2}): this
+  build(): string 
+}
