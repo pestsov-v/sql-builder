@@ -36,3 +36,5 @@ export interface IDatabaseSchema {
 }
 
 export type TDatabaseStorage = {schema: IDatabaseSchema} & {query: string}
+
+export type TColumnName = {[key: string]: any}
