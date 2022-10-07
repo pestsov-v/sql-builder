@@ -74,6 +74,7 @@ interface IAddress {
 const db = dbQuery
     .init('Address')
     .select<IAddress>('house', 'street')
+    .where<IAddress>({city: 'dasdad'})
     .innerJoin<IAddress, IUser>('User', {FK1: 'city', FK2: 'lastName'})
     .groupBy<IAddress>('city')
     .orderBy<IAddress>({city: 'ASC'})

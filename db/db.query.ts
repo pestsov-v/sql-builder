@@ -7,10 +7,6 @@ type TCondition = {
   [key: string]: any
 }
 
-type TORderByCondition = {
-  [key: string]: 'DESC' | 'ASC'
-}
-
 class DatabaseQuery {
   private _query: string;
   private _tableName: string;
@@ -44,11 +40,13 @@ class DatabaseQuery {
     return this;
   }
 
-  where(options: TCondition) {
+  where<T extends TColumnName>(...options: Array<Partial<{[key in keyof T]: any}>>) {
     let condidition = ''
-    for (const key in options) {
-      const value = options[key]
-      condidition = condidition + ' ' + key + '=' + value + ','
+    const columns = options[0]
+
+    for (const column in columns) {
+      const value = columns[column]
+      condidition = condidition + ' ' + column + '=' + value + ','
     } 
 
     this._query = this._query + " where" + condidition;
@@ -71,7 +69,7 @@ class DatabaseQuery {
 
     for (const column in columns) {
       const value = columns[column]
-      condidition = condidition + ' ' + value + '=' + value + ','
+      condidition = condidition + ' ' + column + '=' + value + ','
     } 
 
     this._query = this._query + " ORDER BY" + condidition;
