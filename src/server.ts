@@ -2,9 +2,11 @@ import { ColumnType, IDatabaseSchema } from "../db/db.interface";
 import DBModel from '../db/db.model'
 import DBQuery from '../db/db.query'
 import DBStorage from "./storage";
+import DatabaseRunner from '../db/db.runner'
 
 const dbModel = new DBModel()
 const dbQuery = new DBQuery()
+const DBRunner = new DatabaseRunner<IAddress>()
 
 
 dbModel.create("User", {
@@ -77,10 +79,12 @@ interface IBusket {
   price: string
 }
 
-const db = dbQuery
-    .init('Address')
-    .select<IAddress>('house', 'street')
-    .returning<IAddress>('city', 'house')
-    .build()
-  
+// const db = dbQuery
+//     .init('Address')
+//     .select<IAddress>('house', 'street')
+//     .returning<IAddress>('city', 'house')
+//     .build()
+
+const db = DBRunner.findAll('Address', "city", "house")
+
 console.log(db)

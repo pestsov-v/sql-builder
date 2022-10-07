@@ -15,6 +15,9 @@ class DatabaseQuery implements IDatabaseQuery {
     this.dbStorage = DBStorage
   } 
 
+  // TODO CREATE MODEL CHECKER
+  // TODO ADD ALL WHERE CONDITIONS AND LOGIC WHOES CONFIGURATION THIS COND
+
   init(tableName: string): this {
     this._tableName = tableName;
     this._model = this.dbStorage.getModel(tableName);
