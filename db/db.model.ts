@@ -40,7 +40,7 @@ class DatabaseModel implements IDatabaseModel {
   }
 
   public define(): void {
-    this.dbStorage.setModel(this.tableName, {query: this.query, schema: this.tableParams });
+    this.dbStorage.setModel(this.tableName, {query: this.query, schema: this.tableParams })
   }
 }
 

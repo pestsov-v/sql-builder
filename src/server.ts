@@ -33,6 +33,5 @@ dbModel.create("User", {
 dbModel.define()
 
 
-console.log(dbQuery)
-
-dbQuery.init('User')
+const s = dbQuery.init('User').findAll(['id', 'firstName']).where({id: 'asasas', firstName: 'asasas'}).build()
+console.log(s)
