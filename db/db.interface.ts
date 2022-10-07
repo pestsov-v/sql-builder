@@ -1,5 +1,17 @@
 export type TQuery = string;
 
+export interface TConnectionOptions {
+  readonly type?: "postgres"
+  readonly url: string
+  readonly host?: string
+  readonly port?: number
+  readonly user?: string
+  readonly password?: string
+  readonly database?: string
+  readonly schema?: string
+}
+
+
 export interface IModel {
   readonly model: IDatabaseModel;
 }

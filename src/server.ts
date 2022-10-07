@@ -3,11 +3,11 @@ import DBModel from '../db/db.model'
 import DBQuery from '../db/db.query'
 import DBStorage from "./storage";
 import DatabaseRunner from '../db/db.runner'
+import DatabaseConnector from "../db/db.connector";
 
 const dbModel = new DBModel()
 const dbQuery = new DBQuery()
 const DBRunner = new DatabaseRunner<IAddress>()
-
 
 dbModel.create("User", {
     id: {
@@ -88,3 +88,5 @@ interface IBusket {
 const db = DBRunner.findAll('Address', "city", "house")
 
 console.log(db)
+
+const dbConnection =  new DatabaseConnector()
