@@ -80,11 +80,7 @@ interface IBusket {
 const db = dbQuery
     .init('Address')
     .select<IAddress>('house', 'street')
-    .where<IAddress>({city: 'dasdad'})
-    .innerJoin<IAddress, IUser>('User', {FK1: 'city', FK2: 'lastName'})
-    .innerJoin<IUser, IBusket>('User', {FK1: 'firstName', FK2: 'name'})
-    .groupBy<IAddress>('city')
-    .orderBy<IAddress>({city: 'ASC'})
+    .returning<IAddress>('city', 'house')
     .build()
   
 console.log(db)

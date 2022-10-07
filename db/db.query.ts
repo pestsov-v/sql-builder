@@ -77,7 +77,17 @@ class DatabaseQuery implements IDatabaseQuery {
     this._query = this._query + condition + ' ' + 'INNER JOIN' + ' ' + tableName + ' ON ' + this._tableName + '.' + columns.FK1.toString() + '=' + tableName + '.' + columns.FK2.toString()
  
     return this
+  }
 
+  returning<T extends TColumnName>(...options: Array<keyof T>): this {
+    let column = ''
+
+    const matchedFields = this._keys.filter(e => options.indexOf(e) > -1).join(', ')
+    column = column + matchedFields
+
+    this._query = this._query + " RETURNING " + column;
+
+    return this
   }
 
   build(): string {
