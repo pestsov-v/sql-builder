@@ -33,5 +33,5 @@ dbModel.create("User", {
 dbModel.define()
 
 
-const s = dbQuery.init('User').findAll(['id', 'firstName']).where({id: 'asasas', firstName: 'asasas'}).build()
+const s = dbQuery.init('User').findAll(['id', 'firstName']).where({id: 'asasas', firstName: 'asasas'}).groupBy(['id', 'firstName']).orderBy({id: "ASC", firstName: 'DESC'}).build()
 console.log(s)

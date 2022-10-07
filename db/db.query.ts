@@ -7,6 +7,10 @@ type TCondition = {
   [key: string]: any
 }
 
+type TORderByCondition = {
+  [key: string]: 'DESC' | 'ASC'
+}
+
 class DatabaseQuery {
   private _query: string;
   private _tableName: string;
@@ -43,6 +47,27 @@ class DatabaseQuery {
   }
 
   where(options: TCondition) {
+    let condidition = ''
+    for (const key in options) {
+      const value = options[key]
+      condidition = condidition + ' ' + key + '=' + value + ','
+    } 
+
+    this._query = this._query + " where" + condidition;
+    this._query = this._query.slice(0, -1);
+    return this;
+  }
+
+  groupBy(options: TColumns) {
+    let column = ''
+    const matchedFields = this._keys.filter(e => options.indexOf(e) > -1).join(', ')
+    column = column + matchedFields
+
+    this._query = this._query + " GROUP BY " + column;
+    return this;
+  }
+
+  orderBy(options: TORderByCondition) {
     let condidition = ''
     for (const key in options) {
       const value = options[key]
